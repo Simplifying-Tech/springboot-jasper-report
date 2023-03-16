@@ -31,7 +31,6 @@ public class JReportService {
  
  
     public void exportJasperReport(HttpServletResponse response) throws JRException, IOException {
-    	//String path = "C:\\Users\\Admin\\Downloads";
         List<Address> address = repository.findAll();
         //Get file and compile it
         File file = ResourceUtils.getFile("classpath:Address_01.jrxml");
@@ -39,11 +38,9 @@ public class JReportService {
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(address);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("createdBy", "Simplifying Tech");
-        //Fill report
+        //Fill Jasper report
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-         
-        //JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\Address21.pdf");
+        //Export report
         JasperExportManager.exportReportToPdfStream(jasperPrint,response.getOutputStream());
-        //System.out.println("PDF Generated in path : " + path);
     }
 }
